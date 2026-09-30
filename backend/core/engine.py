@@ -53,6 +53,7 @@ class StreamEngine:
         self.frame_index = 0
         self.running = False
         self.started_once = False
+        self.auto_paused = False  # paused because the last viewer disconnected
         self.history: OrderedDict[int, ProcessedFrame] = OrderedDict()
         self.latest: ProcessedFrame | None = None
         self.last_raw: PointFrame | None = None

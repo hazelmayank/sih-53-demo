@@ -42,6 +42,12 @@ Vite proxies `/api` and `/ws` to `127.0.0.1:8053`. Port 8053 was chosen to avoid
 docker compose up --build      # -> http://localhost:8053
 ```
 
+### Hosted link on Render (dashboard + API + live stream on one URL)
+1. Render dashboard → **New → Blueprint** → select this GitHub repo. `render.yaml` configures a Docker web service.
+2. Wait for the build (~5 min). Open `https://<service-name>.onrender.com`.
+
+The service listens on Render's `$PORT`. Environment variables set lighter defaults for a small CPU: `LIDAR_BEAMS=32`, `LIDAR_TARGET_HZ=5`, `LIDAR_HISTORY_FRAMES=10`, `LIDAR_MAX_STREAM_POINTS=30000`. The stream pauses automatically when the last viewer leaves and resumes when someone opens the page. On the free plan (0.1 CPU) expect roughly 1 frame/s, and a ~1 min cold start after 15 min idle. The *starter* plan is much smoother. The latency/FPS shown online are the cloud machine's numbers; demo live from a laptop for representative performance.
+
 ---
 
 ## 2. What the prototype demonstrates

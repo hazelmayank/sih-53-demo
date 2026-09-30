@@ -1,0 +1,19 @@
+# Render Blueprint: one web service hosting dashboard + API + WebSocket stream.
+# Render dashboard -> New -> Blueprint -> select this repo.
+services:
+  - type: web
+    name: sih-53-demo
+    runtime: docker
+    plan: free            # "starter" (0.5 CPU) gives a much smoother live stream
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # Lighter defaults for a small cloud CPU; all can still be changed from the dashboard.
+      - key: LIDAR_BEAMS
+        value: "32"
+      - key: LIDAR_TARGET_HZ
+        value: "5"
+      - key: LIDAR_HISTORY_FRAMES
+        value: "10"
+      - key: LIDAR_MAX_STREAM_POINTS
+        value: "30000"

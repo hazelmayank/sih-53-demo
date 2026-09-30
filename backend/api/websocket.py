@@ -26,7 +26,8 @@ async def stream(ws: WebSocket):
     eng = ws.app.state.engine
     sub = Subscriber()
     eng.subscribers.add(sub)
-    if not eng.started_once:
+    if not eng.started_once or eng.auto_paused:
+        eng.auto_paused = False
         await eng.start()
     if eng.latest is not None:
         sub.event.set()
@@ -75,3 +76,7 @@ async def stream(ws: WebSocket):
         for t in tasks:
             t.cancel()
         eng.subscribers.discard(sub)
+        if not eng.subscribers and eng.running:
+            # nobody is watching: pause to save CPU; resumes when a viewer reconnects
+            eng.auto_paused = True
+            await eng.stop()

@@ -86,6 +86,7 @@ async def scene_start(request: Request, body: SceneStartRequest | None = None):
 @router.post("/scene/stop", response_model=StatusResponse)
 async def scene_stop(request: Request):
     eng = engine(request)
+    eng.auto_paused = False  # an explicit pause survives viewers reconnecting
     await eng.stop()
     return StatusResponse(status=eng.status())
 
