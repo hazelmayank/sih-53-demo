@@ -1,0 +1,8 @@
+services:
+  lidar:
+    build: .
+    image: adaptive-lidar-prototype
+    ports:
+      - "8053:8053"
+    volumes:
+      - ./data:/app/data
